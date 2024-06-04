@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Include the libraries necesary for working with React-->
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <title>Counter</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/babel">
+
+            
+            function App() {
+
+                // function to add addition functionality to the app 
+                // the argument is the initial state 
+                // this will return an array of a variable and a funtion
+                const [count, setCount] = React.useState(0);
+
+                // we add this function onclick of the button
+                function updateCount () {
+                    // how the function that was return by the useState 
+                    // needs to work when we want to change the value of 
+                    // the variable of the array 
+                    setCount(count + 1);
+                }
+
+                return (
+                    <div>
+                        <div>{count}</div>
+                        <button onClick={updateCount}>Count</button>
+                    </div>
+                );
+            }
+
+            // render the application in the element with the id 'app'
+            ReactDOM.render(<App />, document.querySelector('#app'));
+
+        </script>
+    </body>
+</html>

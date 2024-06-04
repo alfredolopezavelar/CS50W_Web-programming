@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!--Include the libraries necesary for working with React-->
+        <script src="https://unpkg.com/react@17/umd/react.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js" crossorigin></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <style>
+            #app {
+                font-family: sans-serif;
+                text-align: center;
+            }
+            #problem {
+                font-size: 70px;
+            }
+            .incorrect {
+                color: red;
+            }
+            #winner {
+                color:green;
+                font-size: 100px;
+            }
+        </style>
+        <title>Counter</title>
+    </head>
+    <body>
+        <div id="app"></div>
+
+        <script type="text/babel">
+
+            
+            function App() {
+
+                // The states are variables that we need to track in order to change them  
+                // depending on the inputs of the user
+
+                // use a JavaScript Object to have all the things you want to track 
+                // in a single variable
+                const [state, setState] = React.useState({
+                    num1: 1,
+                    num2: 2,
+                    response: "", 
+                    score: 0, 
+                    incorrect: false
+                });
+
+                // listen to all events 
+                function inputKeyPress(event) {
+                    // if the user press Enter
+                    if (event.key === "Enter"){
+                        // convert the input into an integer
+                        const answer = parseInt(state.response)
+                        // check if the answer us correct
+                        if (state.num1 + state.num2 === answer){
+                            // if the answer is correct, change the state of elements
+                            setState({
+                                ...state,
+                                // generate random numbers 
+                                num1 : Math.ceil(Math.random() * 10),
+                                num2 : Math.ceil(Math.random() * 10),
+                                score: state.score + 1,
+                                response: '',
+                                incorrect: false
+                            });
+                        } else {
+                            setState ({
+                                // change the state of the elements depending on the answer 
+                                ...state, 
+                                score: state.score - 1, 
+                                response: '',
+                                incorrect: true
+                            });
+                        }
+
+                    }
+                }
+
+                function updateResponse(event) {
+                    setState({
+                        // update the state, but only the one that are 
+                        // written here, the other ones leave them the 
+                        // same
+                         ...state,
+                        response: event.target.value 
+                    });
+                }
+
+                // if the score us 10, change what is rendered in the HTML
+                if (state.score === 10) {
+                    return (
+                        <div id="winner">
+                            You won!
+                        </div>
+                    );
+                }
+
+                // This will be what is going to be rendered in the HTML 
+                    // state.incorrect is similar to a if clause, and it adds a property depending in the state
+                    // onKeyPress and onChange are event listeners that execute a function when they are activated 
+                return (
+                    <div>
+                        <div className={state.incorrect ? "incorrect" : ""}id="problem"> {state.num1} + {state.num2} </div>
+                        <input autoFocus={true} onKeyPress={inputKeyPress} onChange={updateResponse} value={state.response} />
+                        <div>Score: {state.score}</div>
+                    </div>
+                );
+            }
+
+            // render the application in the element with the id 'app'
+            ReactDOM.render(<App />, document.querySelector('#app'));
+
+        </script>
+    </body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Counter</title>
+        <script>
+            
+
+            // if there is nothing on the local storage
+            if (!localStorage.getItem('counter')){
+                localStorage.setItem('counter', 0);
+            }
+
+            function count() {
+                // retrieve the value of counter from the local storage
+                let counter = localStorage.getItem('counter');
+                counter ++;
+                document.querySelector('h1').innerHTML = counter;
+                // update the value of counter in the local storage
+                localStorage.setItem('counter', counter);
+            }
+
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelector('button').onclick = count;
+
+                // When loading the document, assign the h1 HTML value to the counter
+                document.querySelector('h1').innerHTML = localStorage.getItem('counter');
+            })
+
+        </script>
+    </head>
+    <body>
+        <h1>0</h1>
+        <button>Count</button>
+    </body>
+</html>

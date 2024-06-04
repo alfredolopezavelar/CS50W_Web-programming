@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Currency Exchange</title>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+
+                document.querySelector('form').onsubmit = function() {
+
+                    //This will make an HTTP request to the server 
+                    // asking for additional information from URL provided
+                    fetch('api.exchangeratesapi.io/latest?base=USD')
+                    // this will get us back a PROMISE 
+                    
+                    //when receiving the informarion, take if and return it 
+                    //in the JSON format 
+                    .then(response => response.json())
+
+                    // get acces to the data of the response
+                    .then(data => {
+                        // retrieve data, and put it in upper case letters 
+                        const currency = document.querySelector('#currency').value.toUpperCase();
+                        // use brackets to be able to use a variable 
+                        const rate = data.rates[currency];
+
+                        if ( rate !== undefined) {
+                            // in the html file, put the conversion with 3 decimals
+                            document.querySelector('#result').innerHTML = `1 USD is equal to ${rate.toFixed(3)} EUR`;
+                        } else {
+                            document.querySelector('#result').innerHTML = 'Invalid currency';
+                        }
+   
+                    })
+
+                    // if an error happens, print it in the console
+                    .catch(error => {
+                        console.log('Error:', error);
+                    });
+
+                        // To ensure we don't send the information to another page 
+                        // and all is local
+                    return false;
+                }    
+
+            });
+        </script>
+
+    </head>
+    <body>
+        <form>
+            <input id="currency" palceholder="Currency" type="text">
+            <input type="submit" value="Convert">
+        </form>
+        <div id="result">
+
+        </div>
+    </body>
+</html>
